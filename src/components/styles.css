@@ -34,7 +34,7 @@
   }
 
   .user-card-style {
-    text-align: right;
+    /* text-align: right; */
     border: 1px solid #2d6a4f;
     background-color: #daffef;
     font-size: 16px;
@@ -85,3 +85,23 @@
     background-color: #2d682f !important;
     border-color: #2b622d !important;;
   }
+
+  .centered-element {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;    /* Centers vertically */
+    height: 100vh;          /* Ensures the element takes the full height of the viewport */
+  }
+
+.new-card-suggestions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px;
+  padding: 20px;
+  border: #004400 1px solid;
+  border-radius: 10px;
+  background-color: #e4fff3;
+  cursor: pointer;
+}

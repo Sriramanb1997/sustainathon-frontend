@@ -14,7 +14,7 @@ export const ChatProvider = ({ children }) => {
     const deleteChatByChatId = (chat_id, user_id) => {
         axios.delete(`${url}/delete_chat/${chat_id}?user_id=${user_id}`)
             .then(() => {
-                fetchChatHistory();
+                fetchChatHistory(user_id);
             })
             .catch(error => {
                 console.error("Error deleting chat:", error);
