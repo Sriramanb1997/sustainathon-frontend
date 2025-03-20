@@ -10,6 +10,17 @@ export const ChatProvider = ({ children }) => {
     const [currentChatId, setCurrentChatId] = useState("");
     const [loading, setLoading] = useState(false);
 
+    // Delete chat from API
+    const deleteChatByChatId = (chat_id, user_id) => {
+        axios.delete(`${url}/delete_chat/${chat_id}?user_id=${user_id}`)
+            .then(() => {
+                fetchChatHistory();
+            })
+            .catch(error => {
+                console.error("Error deleting chat:", error);
+            });
+    };
+
     // Fetch chat history from API
     const fetchChatHistory = (user_id) => {
         axios.get(`${url}/list_chats?page=&limit=&search=&start_date&end_date&user_id=${user_id}`)
@@ -45,20 +56,25 @@ export const ChatProvider = ({ children }) => {
 
     const addMessage = (message, chat_id, user_id) => {
         setLoading(true);
+        setChats([...chats, message]);
         axios.post(`${url}/ask?user_id=${user_id}`, {
             question: message.content,
             chat_id: chat_id
         }, {
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
         })
-        .then(() => fetchChatMessages(chat_id, user_id))
-        .catch(error => {
-            console.error("Error sending message:", error);
-        });
+            .then(() => { 
+                chats.pop();
+                setChats([...chats]);
+                fetchChatMessages(chat_id, user_id) 
+            })
+            .catch(error => {
+                console.error("Error sending message:", error);
+            });
     };
 
     return (
-        <ChatContext.Provider value={{ chats, addMessage, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading }}>
+        <ChatContext.Provider value={{ chats, addMessage, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading, deleteChatByChatId }}>
             {children}
         </ChatContext.Provider>
     );

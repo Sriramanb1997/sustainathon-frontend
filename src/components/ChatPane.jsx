@@ -7,29 +7,68 @@ import { LoadingOutlined } from '@ant-design/icons';
 import './styles.css'
 
 const ChatPane = () => {
-    const {chats, fetchChatHistory, loading } = useContext(ChatContext);
+    const { chats, fetchChatHistory, loading } = useContext(ChatContext);
 
     useEffect(() => {
         fetchChatHistory("sriramanb1997");
     }
-    , []);
+        , []);
     return (
         <div style={{ padding: "20px", height: "90vh", overflowY: "auto" }}>
-            {chats.map((msg, index) => (
+            {/* {chats.map((msg, index) => (
                 <Card
                     key={index}
                     style={{
                         marginBottom: "10px",
                         textAlign: msg.role === "user" ? "right" : "left",
                         background: msg.role === "user" ? "#e6f7ff" : "#f5f5f5",
+                        fontSize: msg.role === "user" ? "16px" : "14px",
+
                     }}
                 >
-                    <Markdown components={{
-          table: ({ node, ...props }) => <table className="markdown-table" {...props} />,
-        }} remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>
+                    {msg.role === "user" ? msg.content: <Markdown components={{
+                        table: ({ node, ...props }) => <table className="markdown-table" {...props} />,
+                    }} remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>}
+                    
                 </Card>
+            ))} */}
+
+            {chats.map((msg, index) => (
+                <div
+                    key={index}
+                    style={{
+                        display: 'flex',
+                        justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
+                        marginBottom: "10px",
+                    }}
+                >
+                    <Card
+                        style={{
+                            textAlign: msg.role === "user" ? "right" : "left",
+                            background: msg.role === "user" ? "#e6f7ff" : "#f5f5f5",
+                            fontSize: msg.role === "user" ? "16px" : "14px",
+                            width: "fit-content",
+                            maxWidth: "70%", // Optional: limit width for better visual balance
+                        }}
+                    >
+                        {msg.role === "user" ? (
+                            <span>{msg.content}</span>
+                        ) : (
+                            <Markdown
+                                components={{
+                                    table: ({ node, ...props }) => (
+                                        <table className="markdown-table" {...props} />
+                                    ),
+                                }}
+                                remarkPlugins={[remarkGfm]}
+                            >
+                                {msg.content}
+                            </Markdown>
+                        )}
+                    </Card>
+                </div>
             ))}
-            {loading && <div style={{display : 'block', margin : 'auto', width: '10%', scale: '2'}}><LoadingOutlined /></div>}
+            {loading && <div style={{ display: 'block', margin: 'auto', width: '10%', scale: '2' }}><LoadingOutlined /></div>}
         </div>
     );
 };

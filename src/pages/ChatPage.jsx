@@ -15,7 +15,7 @@ const ChatPage = () => {
                     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
                 }}
             >
-                <Splitter.Panel defaultSize="20%" min="10%" max="70%">
+                <Splitter.Panel defaultSize="30%" min="10%" max="30%">
                     <ChatHistory />
                 </Splitter.Panel>
                 <Splitter.Panel>
