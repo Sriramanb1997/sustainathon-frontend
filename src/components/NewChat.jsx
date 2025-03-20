@@ -4,10 +4,10 @@ import { ChatContext } from '../context/ChatContext';
 
 const NewChat = () => {
 
-    const { addMessage } = useContext(ChatContext);
+    const { addMessage, addMessageStream, currentUserId } = useContext(ChatContext);
 
     const onSuggestionClick = (suggestion) => {
-        addMessage({ role: "user", content: suggestion }, "sriramanb1997");
+        addMessage({ role: "user", content: suggestion }, undefined, currentUserId);
     }
 
     const suggestions = [

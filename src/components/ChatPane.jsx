@@ -9,8 +9,9 @@ import rehypeRaw from 'rehype-raw';
 import NewChat from "./NewChat";
 
 const ChatPane = () => {
-    const { chats, fetchChatHistory, loading } = useContext(ChatContext);
     const endOfMessagesRef = useRef(null);
+    const {chats, fetchChatHistory, loading, currentUserId } = useContext(ChatContext);
+
     const { Meta } = Card;
     useEffect(() => {
         // Scroll to the bottom when chats change
@@ -19,12 +20,8 @@ const ChatPane = () => {
         }
     }, [chats]);
 
-    useEffect(() => {
-        fetchChatHistory("sriramanb1997");
-    }
-        , []);
     return (
-        <div style={{ padding: "20px", height: "90vh", overflowY: "auto", backgroundColor: "#f9fdf8;" }}>
+        <div style={{ padding: "20px", height: "90vh", overflowY: "auto", backgroundColor: "#f9fdf8" }}>
             {/* {chats.map((msg, index) => (
                 <Card
                     key={index}
@@ -39,7 +36,7 @@ const ChatPane = () => {
                     {msg.role === "user" ? msg.content: <Markdown components={{
                         table: ({ node, ...props }) => <table className="markdown-table" {...props} />,
                     }} remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>}
-                    
+
                 </Card>
             ))} */}
 
@@ -62,9 +59,9 @@ const ChatPane = () => {
                                     verticalAlign: 'middle',
                                 }}
                                 size="small"
-                                
+
                             >
-                                {msg.role === "user" ? "Y" : "A"}   
+                                {msg.role === "user" ? "Y" : "A"}
                             </Avatar>
                         }
                         style={{marginBottom: "30px"}}/>

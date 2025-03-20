@@ -1,12 +1,31 @@
+import React, { useEffect, useContext } from "react";
+import { useLocation } from 'react-router-dom';
 import { Layout, Splitter } from "antd";
 import ChatHistory from "../components/ChatHistory";
 import ChatPane from "../components/ChatPane";
 import ChatInput from "../components/ChatInput";
+import {ChatContext} from "../context/ChatContext.jsx";
 
+const url = "http://127.0.0.1:5000"
 
 const { Content } = Layout;
 
 const ChatPage = () => {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const userId = queryParams.get('user_id');
+
+    const { setCurrentUserId, fetchChatHistory } = useContext(ChatContext);
+
+    useEffect(() => {
+        if(!userId) {
+            window.location.href = "http://localhost:5173/"
+        } else {
+            fetchChatHistory(userId);
+            setCurrentUserId(userId);
+        }
+    }, []);
+
     return (
         <div>
             <Splitter

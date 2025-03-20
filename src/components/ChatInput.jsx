@@ -5,11 +5,11 @@ import { MessageOutlined } from '@ant-design/icons';
 import './styles.css'
 const ChatInput = () => {
     const [input, setInput] = useState("");
-    const { clearChats, clearCurrentChatId, currentChatId, addMessage } = useContext(ChatContext);
+    const { clearChats, clearCurrentChatId, currentChatId, addMessage, addMessageStream, currentUserId } = useContext(ChatContext);
 
     const sendMessage = () => {
         if (input.trim()) {
-            addMessage({ role: "user", content: input }, currentChatId, "sriramanb1997");
+            addMessage({ role: "user", content: input }, currentChatId, currentUserId);
             setInput("");
         }
     };

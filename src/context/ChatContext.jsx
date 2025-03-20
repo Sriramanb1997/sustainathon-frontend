@@ -9,6 +9,7 @@ export const ChatProvider = ({ children }) => {
     const [chatHistory, setChatHistory] = useState([]);
     const [currentChatId, setCurrentChatId] = useState("");
     const [loading, setLoading] = useState(false);
+    const [currentUserId, setCurrentUserId] = useState("");
 
     // Delete chat from API
     const deleteChatByChatId = (chat_id, user_id) => {
@@ -49,11 +50,6 @@ export const ChatProvider = ({ children }) => {
             });
     };
 
-    // useEffect( () => {
-
-    //     fetchChatHistory();
-    // }, []);
-
     const clearChats = () => {
         setChats([]);
     }
@@ -84,8 +80,60 @@ export const ChatProvider = ({ children }) => {
             });
     };
 
+    const addMessageStream = async (message, chat_id, user_id) => {
+        setLoading(true);
+        setChats([...chats, message]); // Add user message
+
+        try {
+            const response = await fetch(`${url}/ask_with_stream?user_id=${user_id}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question: message.content, chat_id: chat_id })
+            });
+
+            if (!response.body) {
+                console.error("No response body");
+                setLoading(false);
+                return;
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let accumulatedResponse = "";
+
+            // Add a new assistant message placeholder
+            setChats((prevChats) => [
+                ...prevChats,
+                { role: "assistant", content: "" }
+            ]);
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                accumulatedResponse += chunk;
+
+                // Update assistant message dynamically
+                setChats((prevChats) => {
+                    const updatedChats = [...prevChats];
+                    updatedChats[updatedChats.length - 1] = { role: "assistant", content: accumulatedResponse };
+                    return updatedChats;
+                });
+
+                await new Promise((resolve) => setTimeout(resolve, 40)); // Smooth animation effect
+            }
+
+            setLoading(false);
+
+        } catch (error) {
+            console.error("Error sending message:", error);
+            setLoading(false);
+        }
+    };
+
     return (
-        <ChatContext.Provider value={{ chats, addMessage, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading, deleteChatByChatId, clearChats, clearCurrentChatId }}>
+        <ChatContext.Provider value={{ chats, addMessage, addMessageStream, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading, deleteChatByChatId, currentUserId, setCurrentUserId, clearChats, clearCurrentChatId}}>
             {children}
         </ChatContext.Provider>
     );
