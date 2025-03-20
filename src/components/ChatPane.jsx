@@ -1,13 +1,22 @@
 import { Card } from "antd";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { ChatContext } from "../context/ChatContext";
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { LoadingOutlined } from '@ant-design/icons';
 import './styles.css'
+import rehypeRaw from 'rehype-raw';
 
 const ChatPane = () => {
     const { chats, fetchChatHistory, loading } = useContext(ChatContext);
+    const endOfMessagesRef = useRef(null);
+
+    useEffect(() => {
+      // Scroll to the bottom when chats change
+      if (endOfMessagesRef.current) {
+        endOfMessagesRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, [chats]);
 
     useEffect(() => {
         fetchChatHistory("sriramanb1997");
@@ -55,14 +64,17 @@ const ChatPane = () => {
                                     ),
                                 }}
                                 remarkPlugins={[remarkGfm]}
+                                rehypePlugins={[rehypeRaw]}
+                                children={msg.content}
                             >
-                                {msg.content}
+                                {/* {msg.content} */}
                             </Markdown>
                         )}
                     </Card>
                 </div>
             ))}
             {loading && <div style={{ display: 'block', margin: 'auto', width: '10%', scale: '2' }}><LoadingOutlined /></div>}
+            <div ref={endOfMessagesRef} />
         </div>
     );
 };
