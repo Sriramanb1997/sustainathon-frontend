@@ -7,6 +7,8 @@ const url = "http://127.0.0.1:5000"
 export const ChatProvider = ({ children }) => {
     const [chats, setChats] = useState([]);
     const [chatHistory, setChatHistory] = useState([]);
+    const [currentChatId, setCurrentChatId] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // Fetch chat history from API
     const fetchChatHistory = (user_id) => {
@@ -22,13 +24,17 @@ export const ChatProvider = ({ children }) => {
 
     // Fetch current chat messages
     const fetchChatMessages = (chat_id, user_id) => {
+        setCurrentChatId(chat_id);
+        setLoading(true);
         axios.get(`${url}/get_chat/${chat_id}?user_id=${user_id}`)
             .then(response => {
                 const data = response.data;
                 setChats(data.messages); // Directly set messages from backend
+                setLoading(false);
             })
             .catch(error => {
                 console.error("Error fetching chat messages:", error);
+                setLoading(false);
             });
     };
 
@@ -38,8 +44,10 @@ export const ChatProvider = ({ children }) => {
     // }, []);
 
     const addMessage = (message, chat_id, user_id) => {
+        setLoading(true);
         axios.post(`${url}/ask?user_id=${user_id}`, {
             question: message.content,
+            chat_id: chat_id
         }, {
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
         })
@@ -50,7 +58,7 @@ export const ChatProvider = ({ children }) => {
     };
 
     return (
-        <ChatContext.Provider value={{ chats, addMessage, chatHistory, fetchChatMessages, fetchChatHistory }}>
+        <ChatContext.Provider value={{ chats, addMessage, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading }}>
             {children}
         </ChatContext.Provider>
     );

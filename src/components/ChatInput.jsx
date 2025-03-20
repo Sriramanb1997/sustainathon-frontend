@@ -2,13 +2,13 @@ import { Input, Button } from "antd";
 import { useState, useContext } from "react";
 import { ChatContext } from "../context/ChatContext";
 
-const ChatInput = ({ chat_id }) => {
+const ChatInput = () => {
     const [input, setInput] = useState("");
-    const { addMessage } = useContext(ChatContext);
+    const { currentChatId, addMessage } = useContext(ChatContext);
 
     const sendMessage = () => {
         if (input.trim()) {
-            addMessage({ role: "user", content: input }, chat_id, "sriramanb1997");
+            addMessage({ role: "user", content: input }, currentChatId, "sriramanb1997");
             setInput("");
         }
     };

@@ -1,9 +1,11 @@
 import { Card } from "antd";
 import { useContext, useEffect } from "react";
 import { ChatContext } from "../context/ChatContext";
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const ChatPane = () => {
-    const {chats, fetchChatHistory } = useContext(ChatContext);
+    const {chats, fetchChatHistory, loading } = useContext(ChatContext);
 
     useEffect(() => {
         fetchChatHistory("sriramanb1997");
@@ -20,9 +22,10 @@ const ChatPane = () => {
                         background: msg.role === "user" ? "#e6f7ff" : "#f5f5f5",
                     }}
                 >
-                    {msg.content}
+                    <Markdown remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>
                 </Card>
             ))}
+            {loading && <p>Loading...</p>}
         </div>
     );
 };

@@ -12,18 +12,23 @@ const ChatHistory = () => {
     const menuItems = chatHistory.map((chat) => ({
         key: chat.chat_id,
         label: (
-            <div onClick={() => fetchChatMessages(chat.chat_id, chat.user_id)}>
+            <div>
+            <div style={{height:'auto', width: 'vw'}} onClick={() => fetchChatMessages(chat.chat_id, chat.user_id)}>
                 <Text>{chat.heading}</Text>
-                <br />
+                {/* <br /> */}
                 <Text type="secondary" style={{ fontSize: "12px" }}>
                     {new Date(chat.created_at).toLocaleString()}
                 </Text>
+            </div>
+            <div>
+                :
+            </div>
             </div>
         ),
     }));
 
     return (
-        <Sider width={250} style={{ background: "#f0f2f5", padding: "20px" }}>
+        <Sider width={500} style={{ background: "#f0f2f5", padding: "20px", width: "100%", maxWidth: "500px" }}>
             <h2>Chat History</h2>
             <Menu mode="vertical" items={menuItems} />
         </Sider>
