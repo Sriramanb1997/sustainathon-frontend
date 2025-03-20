@@ -64,7 +64,24 @@
     box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2) !important; /* Change the box shadow on hover */
   }
 
-  .ant-btn-variant-outlined {
-    color: #4CAF50;
-    border-color: #4CAF50;
+  .newchat {
+    color: #4CAF50 !important;;
+    border-color: #4CAF50 !important;
+  }
+
+  .newchat:hover {
+    color: #2d682f !important;;
+    border-color: #2b622d !important;;
+  }
+
+  .sendbtn {
+    color: #fff;
+    background-color: #12a363;
+    border-color: #12a363;
+  }
+
+  .sendbtn:hover {
+    color: #fff !important;;
+    background-color: #2d682f !important;
+    border-color: #2b622d !important;;
   }

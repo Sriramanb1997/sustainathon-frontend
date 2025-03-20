@@ -2,7 +2,7 @@ import { Button, Layout, Menu, Typography, Popconfirm, FloatButton } from "antd"
 import { useContext } from "react";
 import { ChatContext } from "../context/ChatContext";
 import { DeleteOutlined, MessageOutlined, QuestionCircleOutlined, CustomerServiceOutlined } from '@ant-design/icons';
-
+import './styles.css'
 const { Sider } = Layout;
 const { Text } = Typography;
 
@@ -47,9 +47,7 @@ const ChatHistory = () => {
 
     return (
         <Sider width={505} style={{ background: "#fff", padding: "20px", width: "100%", maxWidth: "500px" }}>
-            <Button icon={<MessageOutlined />} className="rounded-button" onClick={() => {clearChats(); clearCurrentChatId();}}>
-                New Chat
-            </Button>
+            
             <h2>Chat History</h2>
             <Menu mode="vertical" items={menuItems} style={{ border: '0px solid black' }} />
 
