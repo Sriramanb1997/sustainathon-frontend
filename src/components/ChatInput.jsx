@@ -8,7 +8,7 @@ const ChatInput = ({ chat_id }) => {
 
     const sendMessage = () => {
         if (input.trim()) {
-            addMessage({ role: "user", content: input }, chat_id);
+            addMessage({ role: "user", content: input }, chat_id, "sriramanb1997");
             setInput("");
         }
     };

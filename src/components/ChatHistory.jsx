@@ -12,7 +12,7 @@ const ChatHistory = () => {
     const menuItems = chatHistory.map((chat) => ({
         key: chat.chat_id,
         label: (
-            <div onClick={() => fetchChatMessages(chat.chat_id)}>
+            <div onClick={() => fetchChatMessages(chat.chat_id, chat.user_id)}>
                 <Text>{chat.heading}</Text>
                 <br />
                 <Text type="secondary" style={{ fontSize: "12px" }}>

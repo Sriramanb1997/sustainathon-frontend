@@ -1,10 +1,14 @@
 import { Card } from "antd";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ChatContext } from "../context/ChatContext";
 
 const ChatPane = () => {
-    const { chats } = useContext(ChatContext);
+    const {chats, fetchChatHistory } = useContext(ChatContext);
 
+    useEffect(() => {
+        fetchChatHistory("sriramanb1997");
+    }
+    , []);
     return (
         <div style={{ padding: "20px", height: "80vh", overflowY: "auto" }}>
             {chats.map((msg, index) => (
