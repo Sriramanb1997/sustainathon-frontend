@@ -112,3 +112,6 @@
   background-color: #e4fff3;
   cursor: pointer;
 }
+.ant-float-btn-primary .ant-float-btn-body {
+  background-color: #2b622d !important;
+}

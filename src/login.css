@@ -50,7 +50,7 @@
     right: 0;
     bottom: 0;
     left: 50%; /* Start gradient from the middle */
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(183, 221, 183) 100%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(147, 193, 150) 100%);
     pointer-events: none;
   }
   
@@ -60,7 +60,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color:rgb(183, 221, 183); /* Adjust as needed */
+    background-color:rgb(147, 193, 150); /* Adjust as needed */
   }
   
   .google-signin-button {
