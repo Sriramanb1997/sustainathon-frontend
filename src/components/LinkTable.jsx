@@ -17,7 +17,7 @@ const LinkTable = ({ data, onDelete }) => {
     },
   ];
 
-  return <Table dataSource={data} columns={columns} rowKey="url" style={{ marginTop: 20 }} />;
+  return <Table dataSource={data} columns={columns} rowKey={(record, index) => record.id || index} style={{ marginTop: 20 }} />;
 };
 
 export default LinkTable;

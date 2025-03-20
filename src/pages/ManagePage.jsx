@@ -6,6 +6,7 @@ import AddLink from "../components/AddLink";
 import axios from "axios";
 
 const { Content } = Layout;
+const url = "http://127.0.0.1:5000"
 
 const ManagePage = () => {
     const [data, setData] = useState([]);
@@ -13,23 +14,24 @@ const ManagePage = () => {
         fetchLinks();
       }, []);
 
-    const fetchLinks = async () => {
-        try {
-          //const response = await axios.get("http://localhost:1234/urls");
-          const newData = [
-                  { id: '1', url: "abc.com", childLevels: 1, excludeKeywords : "abc" },
-                  { id: '2', url: 'xyz.com', childLevels: 2, excludeKeywords : "cbd" },
-                ];
-          //setData(response.data);
-          setData(newData)
-        } catch (error) {
-          message.error("Failed to load data");
-        }
+    const fetchLinks = () => {
+      axios.get(`${url}/links`)
+        .then(response => {
+            setData(response.data.links);
+        })
+        .catch(error => {
+            console.error("Error fetching chat history:", error);
+        });
       };
     const handleDelete = (id) => {
-      const newData = data.filter((item) => item.id !== id);
-      setData(newData);
-      message.success('Deleted successfully');
+      axios.delete(`${url}/link/${id}`)
+          .then(() => {
+              message.success('Deleted successfully');
+              fetchLinks();
+          })
+          .catch(error => {
+              console.error("Error deleting chat:", error);
+          });
     };
 
 
@@ -42,10 +44,10 @@ const ManagePage = () => {
                 }}
                 >
                     <Splitter.Panel defaultSize="20%" min="20%" max="70%">
-                        <AddLink onSubmit="{fetchLinks}"/>
+                        <AddLink refreshData={fetchLinks}/>
                     </Splitter.Panel>
                     <Splitter.Panel>
-                        <LinkTable data={data} onDelete="{handleDelete}"/>
+                        <LinkTable data={data} onDelete={handleDelete}/>
                     </Splitter.Panel>
             </Splitter>
 

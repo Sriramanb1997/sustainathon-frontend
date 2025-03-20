@@ -5,6 +5,7 @@ import ChatPane from "../components/ChatPane";
 import ChatInput from "../components/ChatInput";
 import axios from "axios";
 
+const url = "http://127.0.0.1:5000"
 
 const AddLink = ({ refreshData }) => {
       const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +22,7 @@ const AddLink = ({ refreshData }) => {
 
       const handleSubmit = async (values) => {
         try {
-          await axios.post("http://localhost:1234/url", values);
+          await axios.post(`${url}/link`, values);
           message.success("Submitted successfully");
           setIsModalOpen(false);
           refreshData();
