@@ -14,7 +14,7 @@ const ChatPane = () => {
     }
         , []);
     return (
-        <div style={{ padding: "20px", height: "90vh", overflowY: "auto" }}>
+        <div style={{ padding: "20px", height: "90vh", overflowY: "auto", backgroundColor: "#f9fdf8;" }}>
             {/* {chats.map((msg, index) => (
                 <Card
                     key={index}
@@ -43,13 +43,7 @@ const ChatPane = () => {
                     }}
                 >
                     <Card
-                        style={{
-                            textAlign: msg.role === "user" ? "right" : "left",
-                            background: msg.role === "user" ? "#e6f7ff" : "#f5f5f5",
-                            fontSize: msg.role === "user" ? "16px" : "14px",
-                            width: "fit-content",
-                            maxWidth: "70%", // Optional: limit width for better visual balance
-                        }}
+                       className={msg.role === "user" ? "user-card-style" : "other-card-style"}
                     >
                         {msg.role === "user" ? (
                             <span>{msg.content}</span>

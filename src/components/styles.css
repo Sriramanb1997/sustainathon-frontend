@@ -5,17 +5,21 @@
   }
   
   .markdown-table th, .markdown-table td {
-    border: 1px solid #ddd;
+    border: 1px solid #004400;
     padding: 8px;
   }
   
   .markdown-table th {
-    background-color: #f2f2f2;
+    background-color: #0c4901;
     text-align: center;
   }
   
   .markdown-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #c1dbc5;
+  }
+
+  .markdown-table tr:nth-child(odd) {
+    background-color: #d8f3dc;
   }
   
   .markdown-table tr:hover {
@@ -27,4 +31,26 @@
     padding-bottom: 12px;
     background-color: #659491;
     color: white;
+  }
+
+  .user-card-style {
+    text-align: right;
+    border: 1px solid #2d6a4f;
+    background-color: #daffef;
+    font-size: 16px;
+    width: fit-content;
+    max-width: 70%;
+    color: #1d4634;
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  .other-card-style {
+    text-align: left;
+    background-color: #fbffee;
+    border: 1px solid #a3b18a;
+    font-size: 16px;
+    width: fit-content;
+    max-width: 70%;
+    font-weight: 400;
   }
