@@ -21,7 +21,7 @@ const ChatInput = () => {
                 placeholder="Type a message..."
                 onPressEnter={sendMessage}
             />
-            <Button type="primary" onClick={sendMessage}>
+            <Button style={{background: "#12a363", color: "#fff"}} onClick={sendMessage}>
                 Send
             </Button>
         </div>

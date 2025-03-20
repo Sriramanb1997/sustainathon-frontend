@@ -1,13 +1,13 @@
-import { Button, Layout, Menu, Typography, Popconfirm } from "antd";
+import { Button, Layout, Menu, Typography, Popconfirm, FloatButton } from "antd";
 import { useContext } from "react";
 import { ChatContext } from "../context/ChatContext";
-import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, MessageOutlined, QuestionCircleOutlined, CustomerServiceOutlined } from '@ant-design/icons';
 
 const { Sider } = Layout;
 const { Text } = Typography;
 
 const ChatHistory = () => {
-    const { chatHistory, fetchChatMessages, deleteChatByChatId } = useContext(ChatContext);
+    const { chatHistory, clearChats, clearCurrentChatId, fetchChatMessages, deleteChatByChatId } = useContext(ChatContext);
     const handleDelete = (chatId, user_id) => {
         console.log(`Deleting chat with ID: ${chatId}`);
         deleteChatByChatId(chatId, user_id); // Assuming `deleteChat` is a method in your context for deleting a chat
@@ -18,12 +18,12 @@ const ChatHistory = () => {
         key: chat.chat_id,
         label: (
             <span>
-                <span style={{ height: 'auto', width: 'vw' }} onClick={() => fetchChatMessages(chat.chat_id, chat.user_id)}>
-                    <Text>{chat.heading}</Text>
+                <span style={{ height: 'auto', width: '100%' }} onClick={() => fetchChatMessages(chat.chat_id, chat.user_id)}>
+                    <Text style={{ fontWeight: 500, fontStyle: "italic" }}>{chat.heading}</Text>
                     {/* <br /> */}
-                    <Text type="secondary" style={{ fontSize: "12px" }}>
+                    {/* <Text type="secondary" style={{ fontSize: "12px" }}>
                         {new Date(chat.created_at).toLocaleString()}
-                    </Text>
+                    </Text> */}
                 </span>
                 <span style={{ float: 'right' }}>
                     <Popconfirm
@@ -38,7 +38,7 @@ const ChatHistory = () => {
                             />
                         }
                     >
-                        <DeleteOutlined style={{color: 'red'}}/>
+                        <DeleteOutlined style={{ color: 'red' }} />
                     </Popconfirm>
                 </span>
             </span>
@@ -46,9 +46,14 @@ const ChatHistory = () => {
     }));
 
     return (
-        <Sider width={505} style={{ background: "#f0f2f5", padding: "20px", width: "100%", maxWidth: "500px" }}>
+        <Sider width={505} style={{ background: "#fff", padding: "20px", width: "100%", maxWidth: "500px" }}>
+            <Button icon={<MessageOutlined />} className="rounded-button" onClick={() => {clearChats(); clearCurrentChatId();}}>
+                New Chat
+            </Button>
             <h2>Chat History</h2>
-            <Menu mode="vertical" items={menuItems} />
+            <Menu mode="vertical" items={menuItems} style={{ border: '0px solid black' }} />
+
+           
         </Sider>
     );
 };

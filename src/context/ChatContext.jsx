@@ -54,6 +54,14 @@ export const ChatProvider = ({ children }) => {
     //     fetchChatHistory();
     // }, []);
 
+    const clearChats = () => {
+        setChats([]);
+    }
+
+    const clearCurrentChatId = () => {
+        setCurrentChatId(undefined);
+    }
+
     const addMessage = (message, chat_id, user_id) => {
         setLoading(true);
         setChats([...chats, message]);
@@ -63,10 +71,13 @@ export const ChatProvider = ({ children }) => {
         }, {
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
         })
-            .then(() => { 
+            .then((response) => { 
                 chats.pop();
                 setChats([...chats]);
-                fetchChatMessages(chat_id, user_id) 
+                fetchChatMessages(response.data.chat_id, user_id)
+                if(!chat_id || chat_id === ""){
+                    fetchChatHistory(user_id);
+                }
             })
             .catch(error => {
                 console.error("Error sending message:", error);
@@ -74,7 +85,7 @@ export const ChatProvider = ({ children }) => {
     };
 
     return (
-        <ChatContext.Provider value={{ chats, addMessage, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading, deleteChatByChatId }}>
+        <ChatContext.Provider value={{ chats, addMessage, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading, deleteChatByChatId, clearChats, clearCurrentChatId }}>
             {children}
         </ChatContext.Provider>
     );

@@ -15,7 +15,7 @@ const ChatPage = () => {
                     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
                 }}
             >
-                <Splitter.Panel defaultSize="30%" min="10%" max="30%" style={{backgroundColor: "#f0f2f5"}}>
+                <Splitter.Panel defaultSize="30%" min="10%" max="30%" style={{backgroundColor: "#fff"}}>
                     <ChatHistory />
                 </Splitter.Panel>
                 <Splitter.Panel style={{backgroundColor: "#f9fdf8"}}>

@@ -54,3 +54,17 @@
     max-width: 70%;
     font-weight: 400;
   }
+
+  .ant-menu-item-selected {
+    background-color: #d8f4e7 !important;
+  }
+
+  .ant-input:hover {
+    border-color: #4CAF50 !important; /* Change the border color on hover */
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2) !important; /* Change the box shadow on hover */
+  }
+
+  .ant-btn-variant-outlined {
+    color: #4CAF50;
+    border-color: #4CAF50;
+  }
