@@ -74,6 +74,13 @@
     border-color: #2b622d !important;;
   }
 
+  .inputchat:hover, .inputchat:focus {
+    border-color: #4CAF50  !important;;
+  }
+  .inputchat:active{
+    border-color: #2b622d  !important;;
+  }
+
   .sendbtn {
     color: #fff;
     background-color: #12a363;
@@ -90,7 +97,7 @@
     display: flex;
     justify-content: center; /* Centers horizontally */
     align-items: center;    /* Centers vertically */
-    height: 100vh;          /* Ensures the element takes the full height of the viewport */
+    height: 80vh;          /* Ensures the element takes the full height of the viewport */
   }
 
 .new-card-suggestions {

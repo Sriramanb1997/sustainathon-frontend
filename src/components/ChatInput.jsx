@@ -24,6 +24,7 @@ const ChatInput = () => {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type a message..."
                 onPressEnter={sendMessage}
+                className="inputchat"
             />
             <Button className="sendbtn" onClick={sendMessage}>
                 Send

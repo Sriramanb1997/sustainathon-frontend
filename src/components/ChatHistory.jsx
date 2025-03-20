@@ -2,6 +2,7 @@ import { Button, Layout, Menu, Typography, Popconfirm, FloatButton } from "antd"
 import { useContext } from "react";
 import { ChatContext } from "../context/ChatContext";
 import { DeleteOutlined, MessageOutlined, QuestionCircleOutlined, CustomerServiceOutlined } from '@ant-design/icons';
+import bioSphere from '../assets/BioSphere.jpg';
 import './styles.css'
 const { Sider } = Layout;
 const { Text } = Typography;
