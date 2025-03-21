@@ -15,8 +15,8 @@ const LoginPage = () => {
                 <img src={biosphere} alt="Static" className="static-image" />
             </div>
             <div className="signin-section">
-                <span style={{fontSize: '120px', marginBottom: '50px'}}>BioSphere</span>
-                <div>One Line description</div>
+                <span style={{fontSize: '120px', marginBottom: '50px', textAlign: 'center'}}>BioDiversity Sphere</span>
+                <h2 style={{textAlign: 'center'}}>Centralized Platform for Wildlife, Biodiversity, and Conservation Projects Across India</h2>
                 <div>What all it can do?</div>
                 <div>Points</div>
                 <div>Want to start a chat? Sign in from below</div>

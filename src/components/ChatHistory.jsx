@@ -61,8 +61,8 @@ const ChatHistory = () => {
                 icon={<UploadOutlined />}
                 placement="top"
             >
-                <FloatButton icon={<DatabaseOutlined />} />
-                <FloatButton icon={<LinkOutlined />} />
+                <FloatButton icon={<DatabaseOutlined />} tooltip="Manage URL's"/>
+                <FloatButton icon={<LinkOutlined />} tooltip="Add URL"/>
             </FloatButton.Group>
            
         </Sider>
