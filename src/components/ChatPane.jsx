@@ -10,7 +10,7 @@ import NewChat from "./NewChat";
 
 const ChatPane = () => {
     const endOfMessagesRef = useRef(null);
-    const {chats, fetchChatHistory, loading, currentUserId } = useContext(ChatContext);
+    const {chats, fetchChatHistory, loading, currentUserId, userDetails } = useContext(ChatContext);
 
     const { Meta } = Card;
     useEffect(() => {
@@ -52,8 +52,10 @@ const ChatPane = () => {
                     <Card
                         className={msg.role === "user" ? "user-card-style" : "other-card-style"}
                     >
-                        <Meta title={msg.role === "user" ? "You" : "Assistant"} avatar={
+                        <Meta title={msg.role === "user" ? userDetails.first_name : "Assistant"} avatar={
+                            msg.role === "user" ?
                             <Avatar
+                                src={userDetails.profile_picture}
                                 style={{
                                     backgroundColor: msg.role === "user" ? '#1890ff' : '#f56a00',
                                     verticalAlign: 'middle',
@@ -61,8 +63,17 @@ const ChatPane = () => {
                                 size="small"
 
                             >
-                                {msg.role === "user" ? "Y" : "A"}
                             </Avatar>
+                                : <Avatar
+                                    style={{
+                                        backgroundColor: msg.role === "user" ? '#1890ff' : '#f56a00',
+                                        verticalAlign: 'middle',
+                                    }}
+                                    size="small"
+
+                                >
+                                    {"A"}
+                                </Avatar>
                         }
                         style={{marginBottom: "30px"}}/>
 

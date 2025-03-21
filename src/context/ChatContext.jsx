@@ -10,6 +10,7 @@ export const ChatProvider = ({ children }) => {
     const [currentChatId, setCurrentChatId] = useState("");
     const [loading, setLoading] = useState(false);
     const [currentUserId, setCurrentUserId] = useState("");
+    const [userDetails, setUserDetails] = useState({})
 
     // Delete chat from API
     const deleteChatByChatId = (chat_id, user_id) => {
@@ -21,6 +22,13 @@ export const ChatProvider = ({ children }) => {
                 console.error("Error deleting chat:", error);
             });
     };
+
+    const fetchUserDetails = (user_id) => {
+        axios.get(`${url}/user/${user_id}`)
+            .then((response) => {
+                setUserDetails(response.data)
+            })
+    }
 
     // Fetch chat history from API
     const fetchChatHistory = (user_id) => {
@@ -80,60 +88,54 @@ export const ChatProvider = ({ children }) => {
             });
     };
 
-    const addMessageStream = async (message, chat_id, user_id) => {
+    const addMessageStream = (message, chat_id, user_id) => {
         setLoading(true);
-        setChats([...chats, message]); // Add user message
+        setChats([...chats, message]);
 
-        try {
-            const response = await fetch(`${url}/ask_with_stream?user_id=${user_id}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ question: message.content, chat_id: chat_id })
-            });
+        const updatedURL = `${url}/ask_with_stream?user_id=${encodeURIComponent(user_id)}&question=${encodeURIComponent(message.content)}&chat_id=${encodeURIComponent(chat_id || "")}`;
 
-            if (!response.body) {
-                console.error("No response body");
-                setLoading(false);
-                return;
+        const eventSource = new EventSource(updatedURL);
+
+        let accumulatedResponse = "";
+
+        setChats((prevChats) => [
+            ...prevChats,
+            { role: "assistant", content: "" }  // Placeholder for assistant message
+        ]);
+
+        eventSource.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                if (data.content) {
+                    accumulatedResponse += data.content;
+
+                    setChats((prevChats) => {
+                        const updatedChats = [...prevChats];
+                        updatedChats[updatedChats.length - 1] = { role: "assistant", content: accumulatedResponse };
+                        return updatedChats;
+                    });
+                }
+            } catch (error) {
+                console.error("Error parsing SSE message:", error);
             }
+        };
 
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let accumulatedResponse = "";
-
-            // Add a new assistant message placeholder
-            setChats((prevChats) => [
-                ...prevChats,
-                { role: "assistant", content: "" }
-            ]);
-
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-
-                const chunk = decoder.decode(value, { stream: true });
-                accumulatedResponse += chunk;
-
-                // Update assistant message dynamically
-                setChats((prevChats) => {
-                    const updatedChats = [...prevChats];
-                    updatedChats[updatedChats.length - 1] = { role: "assistant", content: accumulatedResponse };
-                    return updatedChats;
-                });
-
-                await new Promise((resolve) => setTimeout(resolve, 40)); // Smooth animation effect
-            }
-
+        eventSource.onerror = (error) => {
+            console.error("SSE error:", error);
+            eventSource.close();
             setLoading(false);
+        };
 
-        } catch (error) {
-            console.error("Error sending message:", error);
+        eventSource.onopen = () => console.log("SSE connection opened");
+
+        eventSource.addEventListener("end", () => {
+            eventSource.close();
             setLoading(false);
-        }
+        });
     };
 
     return (
-        <ChatContext.Provider value={{ chats, addMessage, addMessageStream, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading, deleteChatByChatId, currentUserId, setCurrentUserId, clearChats, clearCurrentChatId}}>
+        <ChatContext.Provider value={{ chats, addMessage, addMessageStream, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading, deleteChatByChatId, currentUserId, setCurrentUserId, clearChats, clearCurrentChatId, userDetails, fetchUserDetails}}>
             {children}
         </ChatContext.Provider>
     );

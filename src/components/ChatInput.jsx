@@ -9,7 +9,7 @@ const ChatInput = () => {
 
     const sendMessage = () => {
         if (input.trim()) {
-            addMessage({ role: "user", content: input }, currentChatId, currentUserId);
+            addMessageStream({ role: "user", content: input }, currentChatId, currentUserId);
             setInput("");
         }
     };

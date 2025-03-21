@@ -4,6 +4,10 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background: linear-gradient(to right, #4FFFB0, white, #4FFFB0);
+    /*height: 300px; !* Set the height *!*/
+    /*background-image: url('your-image.jpg'); !* Replace with your image URL *!*/
+    background-size: cover; /* Ensures the image covers the entire div */
 }
 
 .sign-in-google-btn {

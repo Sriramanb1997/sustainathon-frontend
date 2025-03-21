@@ -15,7 +15,7 @@ const ChatPage = () => {
     const queryParams = new URLSearchParams(location.search);
     const userId = queryParams.get('user_id');
 
-    const { setCurrentUserId, fetchChatHistory } = useContext(ChatContext);
+    const { setCurrentUserId, fetchChatHistory, fetchUserDetails } = useContext(ChatContext);
 
     useEffect(() => {
         if(!userId) {
@@ -23,6 +23,7 @@ const ChatPage = () => {
         } else {
             fetchChatHistory(userId);
             setCurrentUserId(userId);
+            fetchUserDetails(userId);
         }
     }, []);
 
@@ -34,7 +35,7 @@ const ChatPage = () => {
                     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
                 }}
             >
-                <Splitter.Panel defaultSize="30%" min="10%" max="70%" style={{backgroundColor: "#fff"}}>
+                <Splitter.Panel defaultSize="22%" min="10%" max="70%" style={{backgroundColor: "#fff"}}>
                     <ChatHistory />
                 </Splitter.Panel>
                 <Splitter.Panel style={{backgroundColor: "#f9fdf8"}}>

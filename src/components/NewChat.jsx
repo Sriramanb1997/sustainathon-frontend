@@ -7,7 +7,7 @@ const NewChat = () => {
     const { addMessage, addMessageStream, currentUserId } = useContext(ChatContext);
 
     const onSuggestionClick = (suggestion) => {
-        addMessage({ role: "user", content: suggestion }, undefined, currentUserId);
+        addMessageStream({ role: "user", content: suggestion }, undefined, currentUserId);
     }
 
     const suggestions = [
