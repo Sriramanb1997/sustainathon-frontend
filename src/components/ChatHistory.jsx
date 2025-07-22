@@ -18,31 +18,24 @@ const ChatHistory = () => {
     const menuItems = chatHistory.map((chat) => ({
         key: chat.chat_id,
         label: (
-            <span>
-                <span style={{ height: 'auto', width: '100%' }} onClick={() => fetchChatMessages(chat.chat_id, chat.user_id)}>
-                    <Text style={{ fontWeight: 500, fontStyle: "italic" }}>{chat.heading}</Text>
-                    {/* <br /> */}
-                    {/* <Text type="secondary" style={{ fontSize: "12px" }}>
-                        {new Date(chat.created_at).toLocaleString()}
-                    </Text> */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <span
+                    style={{ flex: 1, minWidth: 0, cursor: 'pointer', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                    onClick={() => fetchChatMessages(chat.chat_id, chat.user_id)}
+                >
+                    <Text style={{ fontWeight: 500, fontStyle: "italic" }}>
+                        {chat.heading}
+                    </Text>
                 </span>
-                <span style={{ float: 'right' }}>
-                    <Popconfirm
-                        title="Delete the Chat"
-                        description="Are you sure to delete this chat?"
-                        onConfirm={() => handleDelete(chat.chat_id, chat.user_id)}
-                        icon={
-                            <QuestionCircleOutlined
-                                style={{
-                                    color: 'red',
-                                }}
-                            />
-                        }
-                    >
-                        <DeleteOutlined style={{ color: 'red' }} />
-                    </Popconfirm>
-                </span>
-            </span>
+                <Popconfirm
+                    title={'Delete the Chat'}
+                    description="Are you sure to delete this chat?"
+                    onConfirm={() => handleDelete(chat.chat_id, chat.user_id)}
+                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                >
+                    <DeleteOutlined style={{ color: 'red', marginLeft: 12 }} />
+                </Popconfirm>
+            </div>
         ),
     }));
 

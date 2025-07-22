@@ -83,7 +83,10 @@ const ChatPane = () => {
                             <Markdown
                                 components={{
                                     table: ({ node, ...props }) => (
-                                        <table className="markdown-table" {...props} />
+                                    <table className="markdown-table" {...props} />
+                                    ),
+                                    a: ({node, ...props}) => (
+                                        <a {...props} target="_blank" rel="noopener noreferrer">{props.children}</a>
                                     ),
                                 }}
                                 remarkPlugins={[remarkGfm]}
