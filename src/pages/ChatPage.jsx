@@ -6,8 +6,6 @@ import ChatPane from "../components/ChatPane";
 import ChatInput from "../components/ChatInput";
 import {ChatContext} from "../context/ChatContext.jsx";
 
-const url = "http://127.0.0.1:5000"
-
 const { Content } = Layout;
 
 const ChatPage = () => {
@@ -19,26 +17,41 @@ const ChatPage = () => {
 
     useEffect(() => {
         if(!userId) {
-            window.location.href = "http://localhost:5173/"
+            window.location.href = "http://localhost:5174/"
         } else {
             fetchChatHistory(userId);
             setCurrentUserId(userId);
             fetchUserDetails(userId);
         }
-    }, []);
+        // Functions are memoized with useCallback, safe to exclude from deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId]);
 
     return (
-        <div>
+        <div style={{ background: 'linear-gradient(135deg, #ffffff, #f8fffe)' }}>
             <Splitter
                 style={{
                     height: '100vh',
-                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0 0 20px rgba(45, 106, 79, 0.1)',
+                    background: 'linear-gradient(135deg, #ffffff, #f1fdf4)'
                 }}
             >
-                <Splitter.Panel defaultSize="22%" min="10%" max="70%" style={{backgroundColor: "#fff"}}>
+                <Splitter.Panel 
+                    defaultSize="22.5%"
+                    min="20%" 
+                    max="35%" 
+                    style={{
+                        backgroundColor: "#ffffff",
+                        borderRight: '1px solid #e8f5e8',
+                        boxShadow: 'inset -1px 0 0 rgba(45, 106, 79, 0.05)'
+                    }}
+                >
                     <ChatHistory />
                 </Splitter.Panel>
-                <Splitter.Panel style={{backgroundColor: "#f9fdf8"}}>
+                <Splitter.Panel style={{
+                    backgroundColor: "#f9fdf8",
+                    background: 'linear-gradient(180deg, #f9fdf8 0%, #ffffff 100%)'
+                }}>
                     <ChatPane />
                     <ChatInput />
                 </Splitter.Panel>

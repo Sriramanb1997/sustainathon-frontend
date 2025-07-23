@@ -3,14 +3,14 @@ import { useContext, useEffect, useRef } from "react";
 import { ChatContext } from "../context/ChatContext";
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { LoadingOutlined } from '@ant-design/icons';
 import './styles.css'
 import rehypeRaw from 'rehype-raw';
 import NewChat from "./NewChat";
+import LoadingIndicator from "./LoadingIndicator";
 
 const ChatPane = () => {
     const endOfMessagesRef = useRef(null);
-    const {chats, fetchChatHistory, loading, currentUserId, userDetails } = useContext(ChatContext);
+    const {chats, userDetails } = useContext(ChatContext);
 
     const { Meta } = Card;
     useEffect(() => {
@@ -52,12 +52,12 @@ const ChatPane = () => {
                     <Card
                         className={msg.role === "user" ? "user-card-style" : "other-card-style"}
                     >
-                        <Meta title={msg.role === "user" ? userDetails.first_name : "Assistant"} avatar={
+                        <Meta title={msg.role === "user" ? userDetails.first_name : "BioSphere AI"} avatar={
                             msg.role === "user" ?
                             <Avatar
                                 src={userDetails.profile_picture}
                                 style={{
-                                    backgroundColor: msg.role === "user" ? '#1890ff' : '#f56a00',
+                                    backgroundColor: msg.role === "user" ? '#1890ff' : '#059669',
                                     verticalAlign: 'middle',
                                 }}
                                 size="small"
@@ -66,13 +66,15 @@ const ChatPane = () => {
                             </Avatar>
                                 : <Avatar
                                     style={{
-                                        backgroundColor: msg.role === "user" ? '#1890ff' : '#f56a00',
+                                        backgroundColor: '#059669',
                                         verticalAlign: 'middle',
+                                        color: '#ffffff',
+                                        fontWeight: 'bold'
                                     }}
                                     size="small"
 
                                 >
-                                    {"A"}
+                                    {"🌱"}
                                 </Avatar>
                         }
                         style={{marginBottom: "30px"}}/>
@@ -80,26 +82,34 @@ const ChatPane = () => {
                         {msg.role === "user" ? (
                             <span> {msg.content}</span>
                         ) : (
-                            <Markdown
-                                components={{
-                                    table: ({ node, ...props }) => (
-                                    <table className="markdown-table" {...props} />
-                                    ),
-                                    a: ({node, ...props}) => (
-                                        <a {...props} target="_blank" rel="noopener noreferrer">{props.children}</a>
-                                    ),
-                                }}
-                                remarkPlugins={[remarkGfm]}
-                                rehypePlugins={[rehypeRaw]}
-                                children={msg.content}
-                            >
-                                {/* {msg.content} */}
-                            </Markdown>
+                            <div>
+                                {msg.content ? (
+                                    <Markdown
+                                        components={{
+                                            table: ({ ...props }) => (
+                                            <table className="markdown-table" {...props} />
+                                            ),
+                                            a: ({...props}) => (
+                                                <a {...props} target="_blank" rel="noopener noreferrer">{props.children}</a>
+                                            ),
+                                        }}
+                                        remarkPlugins={[remarkGfm]}
+                                        rehypePlugins={[rehypeRaw]}
+                                        children={msg.content}
+                                    >
+                                    </Markdown>
+                                ) : (
+                                    <LoadingIndicator 
+                                        type="enhanced" 
+                                        message="Analyzing your query..." 
+                                        position="chat"
+                                    />
+                                )}
+                            </div>
                         )}
                     </Card>
                 </div>
             ))}
-            {loading && <div style={{ display: 'block', margin: 'auto', width: '10%', scale: '2' }}><LoadingOutlined /></div>}
             <div ref={endOfMessagesRef} />
             {chats.length === 0 && <div style={{ textAlign: 'center', margin: 'auto' }}><NewChat/></div>}
         </div>

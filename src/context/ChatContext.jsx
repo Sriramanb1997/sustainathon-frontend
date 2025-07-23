@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useCallback } from "react";
 import axios from "axios";
 
 export const ChatContext = createContext();
@@ -12,26 +12,15 @@ export const ChatProvider = ({ children }) => {
     const [currentUserId, setCurrentUserId] = useState("");
     const [userDetails, setUserDetails] = useState({})
 
-    // Delete chat from API
-    const deleteChatByChatId = (chat_id, user_id) => {
-        axios.delete(`${url}/delete_chat/${chat_id}?user_id=${user_id}`)
-            .then(() => {
-                fetchChatHistory(user_id);
-            })
-            .catch(error => {
-                console.error("Error deleting chat:", error);
-            });
-    };
-
-    const fetchUserDetails = (user_id) => {
+    const fetchUserDetails = useCallback((user_id) => {
         axios.get(`${url}/user/${user_id}`)
             .then((response) => {
                 setUserDetails(response.data)
             })
-    }
+    }, []);
 
     // Fetch chat history from API
-    const fetchChatHistory = (user_id) => {
+    const fetchChatHistory = useCallback((user_id) => {
         axios.get(`${url}/list_chats?page=&limit=&search=&start_date&end_date&user_id=${user_id}`)
             .then(response => {
                 const data = response.data;
@@ -40,10 +29,21 @@ export const ChatProvider = ({ children }) => {
             .catch(error => {
                 console.error("Error fetching chat history:", error);
             });
-    };
+    }, []);
+
+    // Delete chat from API
+    const deleteChatByChatId = useCallback((chat_id, user_id) => {
+        axios.delete(`${url}/delete_chat/${chat_id}?user_id=${user_id}`)
+            .then(() => {
+                fetchChatHistory(user_id);
+            })
+            .catch(error => {
+                console.error("Error deleting chat:", error);
+            });
+    }, [fetchChatHistory]);
 
     // Fetch current chat messages
-    const fetchChatMessages = (chat_id, user_id) => {
+    const fetchChatMessages = useCallback((chat_id, user_id) => {
         setCurrentChatId(chat_id);
         setLoading(true);
         axios.get(`${url}/get_chat/${chat_id}?user_id=${user_id}`)
@@ -56,19 +56,34 @@ export const ChatProvider = ({ children }) => {
                 console.error("Error fetching chat messages:", error);
                 setLoading(false);
             });
-    };
+    }, []);
 
-    const clearChats = () => {
+    const clearChats = useCallback(() => {
         setChats([]);
-    }
+    }, []);
 
-    const clearCurrentChatId = () => {
+    const clearCurrentChatId = useCallback(() => {
         setCurrentChatId(undefined);
-    }
+    }, []);
 
-    const addMessage = (message, chat_id, user_id) => {
+    const logout = useCallback(() => {
+        // Clear all state
+        setChats([]);
+        setChatHistory([]);
+        setCurrentChatId("");
+        setCurrentUserId("");
+        setUserDetails({});
+        setLoading(false);
+        
+        // Redirect to login page
+        window.location.href = "/login";
+    }, []);
+
+    const addMessage = useCallback((message, chat_id, user_id) => {
         setLoading(true);
         setChats([...chats, message]);
+        const isNewChat = !chat_id || chat_id === "";
+        
         axios.post(`${url}/ask?user_id=${user_id}`, {
             question: message.content,
             chat_id: chat_id
@@ -78,17 +93,22 @@ export const ChatProvider = ({ children }) => {
             .then((response) => { 
                 chats.pop();
                 setChats([...chats]);
-                fetchChatMessages(response.data.chat_id, user_id)
-                if(!chat_id || chat_id === ""){
-                    fetchChatHistory(user_id);
+                fetchChatMessages(response.data.chat_id, user_id);
+                
+                // Refresh chat history if this was a new chat
+                if(isNewChat){
+                    // Add a small delay to ensure backend has saved the chat
+                    setTimeout(() => {
+                        fetchChatHistory(user_id);
+                    }, 500);
                 }
             })
             .catch(error => {
                 console.error("Error sending message:", error);
             });
-    };
+    }, [chats, fetchChatMessages, fetchChatHistory]);
 
-    const addMessageStream = (message, chat_id, user_id) => {
+    const addMessageStream = useCallback((message, chat_id, user_id) => {
         setLoading(true);
         setChats([...chats, message]);
 
@@ -97,6 +117,8 @@ export const ChatProvider = ({ children }) => {
         const eventSource = new EventSource(updatedURL);
 
         let accumulatedResponse = "";
+        let newChatId = null;
+        let isNewChat = !chat_id || chat_id === "";
 
         setChats((prevChats) => [
             ...prevChats,
@@ -106,6 +128,13 @@ export const ChatProvider = ({ children }) => {
         eventSource.onmessage = (event) => {
             try {
                 const data = JSON.parse(event.data);
+                
+                // Handle chat_id from backend response
+                if (data.chat_id && isNewChat) {
+                    newChatId = data.chat_id;
+                    setCurrentChatId(data.chat_id);
+                }
+                
                 if (data.content) {
                     accumulatedResponse += data.content;
 
@@ -131,11 +160,37 @@ export const ChatProvider = ({ children }) => {
         eventSource.addEventListener("end", () => {
             eventSource.close();
             setLoading(false);
+            
+            // Refresh chat history after assistant response is complete for new chats
+            if (isNewChat && newChatId) {
+                // Add a small delay to ensure backend has saved the chat
+                setTimeout(() => {
+                    fetchChatHistory(user_id);
+                }, 500);
+            }
         });
-    };
+    }, [chats, fetchChatHistory]);
 
     return (
-        <ChatContext.Provider value={{ chats, addMessage, addMessageStream, chatHistory, fetchChatMessages, fetchChatHistory, currentChatId, loading, deleteChatByChatId, currentUserId, setCurrentUserId, clearChats, clearCurrentChatId, userDetails, fetchUserDetails}}>
+        <ChatContext.Provider value={{ 
+            chats, 
+            addMessage, 
+            addMessageStream, 
+            chatHistory, 
+            fetchChatMessages, 
+            fetchChatHistory, 
+            currentChatId, 
+            loading, 
+            deleteChatByChatId, 
+            currentUserId, 
+            setCurrentUserId, 
+            clearChats, 
+            clearCurrentChatId, 
+            userDetails, 
+            fetchUserDetails, 
+            logout,
+            setCurrentChatId
+        }}>
             {children}
         </ChatContext.Provider>
     );
