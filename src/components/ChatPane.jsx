@@ -66,7 +66,7 @@ const ChatPane = () => {
                             </Avatar>
                                 : <Avatar
                                     style={{
-                                        backgroundColor: '#059669',
+                                        backgroundColor: '#e8f3efff',
                                         verticalAlign: 'middle',
                                         color: '#ffffff',
                                         fontWeight: 'bold',

@@ -142,6 +142,7 @@ const ManageUrlsModal = ({ isOpen, onClose }) => {
             label: (
                 <span>
                     <LinkOutlined />
+                     {' '}
                     Add URL(s)
                 </span>
             ),
@@ -164,7 +165,7 @@ const ManageUrlsModal = ({ isOpen, onClose }) => {
                             <Input.TextArea 
                                 placeholder="Enter URL(s) - separate multiple URLs with commas&#10;Examples:&#10;https://example.com&#10;https://site1.com, https://site2.com, site3.com" 
                                 size="large"
-                                rows={3}
+                                rows={5}
                                 style={{
                                     '--ant-color-primary': '#059669',
                                     '--ant-color-primary-hover': '#10b981'
@@ -247,6 +248,7 @@ const ManageUrlsModal = ({ isOpen, onClose }) => {
             label: (
                 <span>
                     <DatabaseOutlined />
+                    {' '}
                     Manage URLs
                 </span>
             ),
