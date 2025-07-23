@@ -36,6 +36,134 @@
   transform: translateY(-1px);
 }
 
+/* Chat Message Content Styling */
+.user-message-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #064e3b;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.assistant-message-content {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #374151;
+  margin: 0;
+  padding: 0;
+}
+
+.assistant-message-content p {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+.assistant-message-content p:last-child {
+  margin-bottom: 0;
+}
+
+.assistant-message-content h1, 
+.assistant-message-content h2, 
+.assistant-message-content h3, 
+.assistant-message-content h4, 
+.assistant-message-content h5, 
+.assistant-message-content h6 {
+  color: #059669;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.assistant-message-content h1:first-child,
+.assistant-message-content h2:first-child,
+.assistant-message-content h3:first-child,
+.assistant-message-content h4:first-child,
+.assistant-message-content h5:first-child,
+.assistant-message-content h6:first-child {
+  margin-top: 0;
+}
+
+.assistant-message-content ul, 
+.assistant-message-content ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.assistant-message-content li {
+  margin-bottom: 0.375rem;
+  line-height: 1.6;
+}
+
+.assistant-message-content code {
+  background: #f3f4f6;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.875em;
+  color: #059669;
+}
+
+.assistant-message-content pre {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.assistant-message-content pre code {
+  background: none;
+  padding: 0;
+  color: #374151;
+}
+
+.assistant-message-content blockquote {
+  border-left: 4px solid #059669;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Avatar and Name Styling Enhancements */
+.ant-card-meta-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #374151 !important;
+  margin-bottom: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.user-card-style .ant-card-meta-title {
+  color: #064e3b !important;
+  font-weight: 700 !important;
+}
+
+.other-card-style .ant-card-meta-title {
+  color: #059669 !important;
+  font-weight: 700 !important;
+}
+
+.ant-card-meta-avatar {
+  margin-right: 0.75rem !important;
+}
+
+.ant-card-meta-detail {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.ant-card-meta {
+  margin-bottom: 1rem !important;
+  align-items: center !important;
+}
+
 /* Enhanced Tables */
 .markdown-table {
   width: 100%;
@@ -621,9 +749,26 @@
 @media (max-width: 768px) {
   .user-card-style,
   .other-card-style {
-    max-width: 85%;
+    max-width: 90%;
     padding: 0.75rem 1rem;
-    font-size: 0.875rem;
+  }
+  
+  .user-message-content {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .assistant-message-content {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  
+  .ant-card-meta-title {
+    font-size: 0.9rem !important;
+  }
+  
+  .ant-card-meta-avatar {
+    margin-right: 0.5rem !important;
   }
   
   .new-card-suggestions {

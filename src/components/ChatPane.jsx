@@ -60,7 +60,7 @@ const ChatPane = () => {
                                     backgroundColor: msg.role === "user" ? '#1890ff' : '#059669',
                                     verticalAlign: 'middle',
                                 }}
-                                size="small"
+                                size="default"
 
                             >
                             </Avatar>
@@ -69,20 +69,26 @@ const ChatPane = () => {
                                         backgroundColor: '#059669',
                                         verticalAlign: 'middle',
                                         color: '#ffffff',
-                                        fontWeight: 'bold'
+                                        fontWeight: 'bold',
+                                        fontSize: '1.1rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
                                     }}
-                                    size="small"
+                                    size="default"
 
                                 >
                                     {"🌱"}
                                 </Avatar>
                         }
-                        style={{marginBottom: "30px"}}/>
+                        style={{marginBottom: "12px"}}/>
 
                         {msg.role === "user" ? (
-                            <span> {msg.content}</span>
+                            <div className="user-message-content">
+                                {msg.content}
+                            </div>
                         ) : (
-                            <div>
+                            <div className="assistant-message-content">
                                 {msg.content ? (
                                     <Markdown
                                         components={{

@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
-import { Layout, Menu, Typography, Popconfirm, FloatButton, Avatar, Flex, Dropdown } from "antd";
+import { Layout, Menu, Typography, Popconfirm, Avatar, Flex, Dropdown } from "antd";
 import { ChatContext } from "../context/ChatContext";
-import { DeleteOutlined, DatabaseOutlined, QuestionCircleOutlined, UploadOutlined, LinkOutlined, DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DatabaseOutlined, QuestionCircleOutlined, LinkOutlined, DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import ManageUrlsModal from './ManageUrlsModal';
 import './styles.css';
 
 const { Sider } = Layout;
@@ -10,6 +11,7 @@ const { Text } = Typography;
 const ChatHistory = () => {
     const { chatHistory, fetchChatMessages, deleteChatByChatId, userDetails, logout, currentChatId } = useContext(ChatContext);
     const [expandedGroups, setExpandedGroups] = useState({ 'Today': true, 'Recent': true, 'Yesterday': true });
+    const [isManageModalOpen, setIsManageModalOpen] = useState(false);
     
     const handleDelete = (chatId, user_id) => {
         console.log(`Deleting chat with ID: ${chatId}`);
@@ -139,10 +141,12 @@ const ChatHistory = () => {
     // User dropdown menu items
     const userMenuItems = [
         {
-            key: 'profile',
-            icon: <UserOutlined />,
-            label: 'Profile',
-            disabled: true, // Profile functionality can be added later
+            key: 'manage-sources',
+            icon: <DatabaseOutlined />,
+            label: 'Manage Sources',
+            onClick: () => {
+                setIsManageModalOpen(true);
+            },
         },
         {
             type: 'divider',
@@ -203,16 +207,10 @@ const ChatHistory = () => {
                 </div>
             </Flex>
 
-            <FloatButton.Group
-                className="chat-actions-float"
-                trigger="click"
-                type="primary"
-                icon={<UploadOutlined />}
-                placement="top"
-            >
-                <FloatButton icon={<DatabaseOutlined />} tooltip="Manage URL's"/>
-                <FloatButton icon={<LinkOutlined />} tooltip="Add URL"/>
-            </FloatButton.Group>
+            <ManageUrlsModal 
+                isOpen={isManageModalOpen}
+                onClose={() => setIsManageModalOpen(false)}
+            />
         </Sider>
     );
 };

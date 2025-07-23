@@ -1,57 +1,76 @@
-import React, { useState, useEffect } from "react";
-import { Layout, Splitter, Button, Checkbox, Form, Input, Modal, InputNumber, message, Table  } from "antd";
+import React, { useState } from "react";
+import { Layout, Splitter, Button } from "antd";
 import ChatHistory from "../components/ChatHistory";
-import LinkTable from "../components/LinkTable";
-import AddLink from "../components/AddLink";
-import axios from "axios";
-
-const { Content } = Layout;
-const url = "http://127.0.0.1:5000"
+import ManageUrlsModal from "../components/ManageUrlsModal";
 
 const ManagePage = () => {
-    const [data, setData] = useState([]);
-     useEffect(() => {
-        fetchLinks();
-      }, []);
-
-    const fetchLinks = () => {
-      axios.get(`${url}/links`)
-        .then(response => {
-            setData(response.data.links);
-        })
-        .catch(error => {
-            console.error("Error fetching chat history:", error);
-        });
-      };
-    const handleDelete = (id) => {
-      axios.delete(`${url}/link/${id}`)
-          .then(() => {
-              message.success('Deleted successfully');
-              fetchLinks();
-          })
-          .catch(error => {
-              console.error("Error deleting chat:", error);
-          });
-    };
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
-        <div>
+        <div style={{ background: 'linear-gradient(135deg, #ffffff, #f8fffe)' }}>
             <Splitter
                 style={{
                     height: '100vh',
-                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0 0 20px rgba(45, 106, 79, 0.1)',
+                    background: 'linear-gradient(135deg, #ffffff, #f1fdf4)'
                 }}
+            >
+                <Splitter.Panel 
+                    defaultSize="22.5%"
+                    min="20%" 
+                    max="35%" 
+                    style={{
+                        backgroundColor: "#ffffff",
+                        borderRight: '1px solid #e8f5e8',
+                        boxShadow: 'inset -1px 0 0 rgba(45, 106, 79, 0.05)'
+                    }}
                 >
-                    <Splitter.Panel defaultSize="20%" min="20%" max="70%">
-                        <AddLink refreshData={fetchLinks}/>
-                    </Splitter.Panel>
-                    <Splitter.Panel>
-                        <LinkTable data={data} onDelete={handleDelete}/>
-                    </Splitter.Panel>
+                    <ChatHistory />
+                </Splitter.Panel>
+                <Splitter.Panel style={{
+                    backgroundColor: "#f9fdf8",
+                    background: 'linear-gradient(180deg, #f9fdf8 0%, #ffffff 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column'
+                }}>
+                    <div style={{ textAlign: 'center', padding: '40px' }}>
+                        <h1 style={{ 
+                            fontSize: '32px', 
+                            color: '#2f4f4f',
+                            marginBottom: '16px'
+                        }}>
+                            URL Management
+                        </h1>
+                        <p style={{ 
+                            fontSize: '16px', 
+                            color: '#666',
+                            marginBottom: '32px'
+                        }}>
+                            Manage your URLs for better chat experience
+                        </p>
+                        <Button 
+                            type="primary" 
+                            size="large"
+                            onClick={() => setIsModalOpen(true)}
+                            style={{
+                                backgroundColor: '#059669',
+                                borderColor: '#059669',
+                                padding: '8px 32px',
+                                height: 'auto'
+                            }}
+                        >
+                            Open URL Manager
+                        </Button>
+                    </div>
+                </Splitter.Panel>
             </Splitter>
 
-            <h2>Table</h2>
+            <ManageUrlsModal 
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </div>
     );
 };
