@@ -161,10 +161,14 @@ const ChatHistory = () => {
 
     return (
         <Sider className="chat-history-sidebar" width="100%">
+            <div className="app-branding">
+                <h1 className="app-name">BioSphere</h1>
+                <div className="brand-divider"></div>
+            </div>
             <h2 className="chat-history-title">Chat History</h2>
             
-            <Flex justify="space-between" vertical className="chat-history-container">
-                <div className="chat-history-menu">
+            <Flex justify="space-between" vertical className="chat-history-container" style={{ height: 'calc(100vh - 140px)', minHeight: '400px' }}>
+                <div className="chat-history-menu" style={{ flex: 1, overflowY: 'auto' }}>
                     {Object.entries(finalGroupedChats).map(([groupName, chats]) => (
                         <div key={groupName} className="date-group">
                             <div 
@@ -187,7 +191,7 @@ const ChatHistory = () => {
                     ))}
                 </div>
 
-                <div className="user-profile-section">
+                <div className="user-profile-section" style={{ flexShrink: 0 }}>
                     <Dropdown 
                         menu={{ items: userMenuItems }} 
                         trigger={['click']} 

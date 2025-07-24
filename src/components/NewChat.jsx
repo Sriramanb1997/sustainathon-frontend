@@ -4,7 +4,7 @@ import { ChatContext } from '../context/ChatContext';
 
 const NewChat = () => {
 
-    const { addMessage, addMessageStream, currentUserId } = useContext(ChatContext);
+    const { addMessageStream, currentUserId } = useContext(ChatContext);
 
     const onSuggestionClick = (suggestion) => {
         addMessageStream({ role: "user", content: suggestion }, undefined, currentUserId);
@@ -17,21 +17,31 @@ const NewChat = () => {
     ];
 
     return (
-        <div className='centered-element'>
-            <div>
-                <div>
-                    <h1>Start a new conversation here</h1>
+        <div className='new-chat-container'>
+            <div className="welcome-header">
+                <div className="logo-section">
+                    <span className="logo-icon">🌱</span>
+                    <h1 className="welcome-title">BioSphere AI</h1>
                 </div>
-                <div>
-                    <p>Here are some of the suggestions...</p>
-                </div>
-                <div>
+                <h2 className="welcome-subtitle">Start a new conversation here</h2>
+                <p className="welcome-description">Ask me anything about wildlife conservation, environmental protection, or sustainability</p>
+            </div>
+            
+            <div className="suggestions-section">
+                <h3 className="suggestions-title">Try these suggestions to get started:</h3>
+                <div className="suggestions-grid">
                     {suggestions.map((suggestion, index) => (
-                        <div key={index} className="new-card-suggestions" onClick={() => onSuggestionClick(suggestion)}>{suggestion}</div>
+                        <div 
+                            key={index} 
+                            className="suggestion-card" 
+                            onClick={() => onSuggestionClick(suggestion)}
+                        >
+                            <div className="suggestion-icon">💡</div>
+                            <span className="suggestion-text">{suggestion}</span>
+                        </div>
                     ))}
                 </div>
             </div>
-            
         </div>
     );
 };

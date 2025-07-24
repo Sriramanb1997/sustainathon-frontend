@@ -1,5 +1,31 @@
 /* BioSphere Component Styles - Clean & Fresh */
 
+/* App Branding */
+.app-branding {
+    padding: 8px 20px 12px;
+    /* border-bottom: 1px solid #e8e8e8; */
+    margin-bottom: 12px;
+}
+
+.app-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #059669, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+}
+
+.brand-divider {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #059669, #10b981, #059669);
+    margin-top: 8px;
+    border-radius: 1px;
+}
+
 /* Chat Message Cards */
 .user-card-style {
   background: linear-gradient(135deg, #d1fae5, #a7f3d0);
@@ -277,7 +303,177 @@
   box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3) !important;
 }
 
-/* Welcome Screen */
+/* Welcome Screen - Improved Layout */
+.new-chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 50%, #ecfdf5 100%);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(5, 150, 105, 0.15);
+  border: 2px solid #d1fae5;
+  position: relative;
+  overflow: hidden;
+}
+
+.new-chat-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.02) 0%, rgba(16, 185, 129, 0.05) 50%, rgba(5, 150, 105, 0.03) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.new-chat-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.logo-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 4px 8px rgba(5, 150, 105, 0.2));
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #059669, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.welcome-subtitle {
+  font-size: 1.5rem;
+  color: #22543d;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.welcome-description {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.suggestions-section {
+  width: 100%;
+  max-width: 600px;
+}
+
+.suggestions-title {
+  font-size: 1.1rem;
+  color: #374151;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+.suggestion-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fffe 100%);
+  border: 2px solid #a7f3d0;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #374151;
+  font-weight: 500;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.suggestion-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(135deg, #059669, #10b981);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.suggestion-card:hover::before {
+  transform: scaleY(1);
+}
+
+.suggestion-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #059669;
+}
+
+.suggestion-text {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.suggestion-card:hover {
+  border-color: #059669;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(5, 150, 105, 0.2);
+  color: #065f46;
+}
+
+.suggestion-card:hover .suggestion-icon {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: white;
+  transform: scale(1.1);
+}
+
+.suggestion-card:active {
+  transform: translateY(0);
+}
+
+/* Legacy styles for backward compatibility */
 .centered-element {
   display: flex;
   justify-content: center;
@@ -777,6 +973,59 @@
     font-size: 0.875rem;
   }
   
+  /* New Chat Layout Responsive Styles */
+  .new-chat-container {
+    padding: 1rem;
+    min-height: 70vh;
+    max-width: 95%;
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.12);
+  }
+  
+  .welcome-header {
+    margin-bottom: 2rem;
+  }
+  
+  .logo-section {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .logo-icon {
+    font-size: 2rem;
+  }
+  
+  .welcome-title {
+    font-size: 1.75rem;
+  }
+  
+  .welcome-subtitle {
+    font-size: 1.25rem;
+  }
+  
+  .welcome-description {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+  }
+  
+  .suggestions-title {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .suggestion-card {
+    padding: 1rem;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .suggestion-icon {
+    font-size: 1rem;
+  }
+  
   .markdown-table {
     font-size: 0.75rem;
   }
@@ -808,7 +1057,7 @@
 /* Chat History Sidebar Styles */
 .chat-history-sidebar {
   background: linear-gradient(135deg, #ffffff, #f8fffe) !important;
-  padding: 1.5rem !important;
+  padding: 0.75rem !important;
   width: 100% !important;
   height: 100vh !important;
   border-right: none !important;
@@ -824,8 +1073,8 @@
 }
 
 .chat-history-container {
-  height: 94vh !important;
-  overflow: hidden !important;
+  height: calc(100vh - 140px) !important;
+  overflow: visible !important;
   display: flex !important;
   flex-direction: column !important;
 }
@@ -932,6 +1181,9 @@
   border: 1px solid #a7f3d0 !important;
   margin-top: 0.5rem !important;
   flex-shrink: 0 !important;
+  position: relative !important;
+  bottom: 0 !important;
+  z-index: 10 !important;
 }
 
 .user-profile-clickable {

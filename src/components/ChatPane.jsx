@@ -117,7 +117,17 @@ const ChatPane = () => {
                 </div>
             ))}
             <div ref={endOfMessagesRef} />
-            {chats.length === 0 && <div style={{ textAlign: 'center', margin: 'auto' }}><NewChat/></div>}
+            {chats.length === 0 && (
+                <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    minHeight: '80vh',
+                    width: '100%'
+                }}>
+                    <NewChat />
+                </div>
+            )}
         </div>
     );
 };
