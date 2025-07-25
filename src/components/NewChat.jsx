@@ -13,8 +13,7 @@ const NewChat = () => {
     const suggestions = [
         "Tell me about Tiger reserve forests in India",
         "Generate a table of Tigers count with State",
-        "List the different projects maintained by CWSIndia",
-        "What are the sanctuaries that are maintaining endangered birds?"
+        "List the different projects maintained by CWSIndia"
     ];
 
     return (
